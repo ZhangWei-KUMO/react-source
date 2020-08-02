@@ -27,12 +27,11 @@ export default class Article extends React.Component {
     const { locale } = intl;
 
     executeSdk(href);
-    const LOGO = "https://react-source.js.org/img/react-source.svg";
     wx.ready(() => {
       // 分享文章给朋友
-      updateAppMessageShareData(href, title, LOGO, "react-source文档随手翻阅");
+      updateAppMessageShareData(href, title, config.baseConfig.logo, "react-source文档随手翻阅");
       // 分享文章到朋友圈
-      updateTimelineShareData(href, title, LOGO);
+      updateTimelineShareData(href, title, config.baseConfig.logo);
     });
   }
 
@@ -44,13 +43,12 @@ export default class Article extends React.Component {
       const { href } = window.location;
       const { locale } = intl;
       executeSdk(href);
-      const LOGO = "https://react-source.js.org/img/react-source.svg";
       console.log(title)
       wx.ready(() => {
         // 分享文章给朋友
-        updateAppMessageShareData(href, title, LOGO, "react-source文档随手翻阅");
+        updateAppMessageShareData(href, title, config.baseConfig.logo, "react-source文档随手翻阅");
         // 分享文章到朋友圈
-        updateTimelineShareData(href, title, LOGO);
+        updateTimelineShareData(href, title, config.baseConfig.logo);
       });
     }
   }

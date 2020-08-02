@@ -1,8 +1,8 @@
 const baseConfig = {
   logo: "https://zh-hans.reactjs.org/favicon.ico",
-  projectName: "react-source中文文档",
+  projectName: "React中文文档",
   homeUrl: "/getting-started-cn.html",
-  library: "https://github.com/ZhangWei-KUMO/react-source_doc"
+  library: "https://github.com/ZhangWei-KUMO/react-source"
 };
 
 const themeConfig = {
