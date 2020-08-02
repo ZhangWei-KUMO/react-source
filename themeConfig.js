@@ -1,6 +1,6 @@
 const baseConfig = {
   logo: "https://zh-hans.reactjs.org/favicon.ico",
-  projectName: "React中文文档",
+  projectName: "React源码解析（16.8.6）",
   homeUrl: "/getting-started-cn.html",
   library: "https://github.com/ZhangWei-KUMO/react-source"
 };
@@ -8,8 +8,8 @@ const baseConfig = {
 const themeConfig = {
   categoryOrder: {
     简介: 1,
-    教程: 2,
-    补充内容: 3,
+    "React API": 2,
+    "React Fiber": 3,
   },
   typeOrder: {
     "react-source 必考点": 1,

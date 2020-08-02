@@ -2,7 +2,7 @@
 export function updateAppMessageShareData(link, title, imgUrl, desc = "") {
   wx.ready(() => {
     wx.updateAppMessageShareData({
-      title: `${title}- react-source 中文文档`,
+      title: `${title}- React源码解析`,
       desc,
       link,
       imgUrl,

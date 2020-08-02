@@ -1,7 +1,15 @@
 ---
 category: 简介
 order: 1
-title: Getting Started With react-source
+title: 阅读源码之前的准备
 ---
 
-react-source是JavaScript应用程序的可预测状态容器。 它可以帮助您编写性能一致，在不同环境（客户端，服务器和本机）中运行且易于测试的应用程序。最重要的是，它提供了出色的开发人员体验，例如实时代码编辑和时间旅行调试器的结合。 您可以将react-source与React或任何其他视图库一起使用。它很小（2kB，包括依赖项），但是具有大量可用插件。
+我们这篇文档的主要面向对象是对于有多年React开发经验的高级前端编程人员，对于读者的要求需要以下背景知识：
+
+1. React项目经验
+2. 熟悉babel编译工具
+3. 熟悉webpack打包工具
+4. 使用过Redux这类单向数据流库
+5. 对于MVVM或MVC架构原理有一定的认知
+
+> 本文写于2019年5月，在2020年3月React官方已经重写React-reconcile包，引入全新了Lane概念代替原有的ExpirationTime概念。
