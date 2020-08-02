@@ -9,7 +9,8 @@ const themeConfig = {
   categoryOrder: {
     简介: 1,
     "React API": 2,
-    "React Fiber": 3,
+    "React更新": 3,
+    "React Fiber": 4,
   },
   typeOrder: {
     "react-source 必考点": 1,
