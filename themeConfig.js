@@ -7,10 +7,11 @@ const baseConfig = {
 
 const themeConfig = {
   categoryOrder: {
-    简介: 1,
+    "简介": 1,
     "React API": 2,
     "React更新": 3,
     "React Fiber": 4,
+    "React源码中的类": 6
   },
   typeOrder: {
     "react-source 必考点": 1,

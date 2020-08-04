@@ -30,6 +30,8 @@ React.createElement("div",{id:"root",key:1},
 在上面的代码中我们可以看到JSX文件中嵌套的类HTML标签编译成了一个基于`React.createElement`
 的树状结构。
 
+<img src="https://test-1253763202.cos.ap-shanghai.myqcloud.com/docs/react-source/dom_tree.png" style="width:100%" alt="树架构"/>
+
 ## 组件的编译
 
 显然，我们在实际业务代码中没有这么简单。我们在业务开发中经常会自定义组件。那么组件的编译又有和不同？
