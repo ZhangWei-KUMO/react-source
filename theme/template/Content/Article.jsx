@@ -141,6 +141,12 @@ export default class Article extends React.Component {
             ].concat(getChildren(content.api || ["placeholder"]))
           )}
         </article>
+        <center>
+          <img src="https://cloud-wave.cn/images/public.jpg"
+            width="100"
+            style={{ marginTop: 80 }} />
+          <p>关注公众号，获取更多前端知识</p>
+        </center>
       </>
     );
   }
