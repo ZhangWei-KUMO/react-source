@@ -11,7 +11,7 @@ const themeConfig = {
     "React API": 2,
     "React更新": 3,
     "React Fiber": 4,
-    "React中概念", 5,
+    "React中概念": 5,
     "React源码中的类": 6,
     "Fiber的工作循环机制": 7
   },
