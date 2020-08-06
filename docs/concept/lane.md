@@ -1,7 +1,7 @@
 ---
 category: React中概念
 order: 3
-title: 泳道模型
+title: Lane | 泳道模型
 ---
 
 在React 16.8之前的Fiber任务优先级模型使用的是**过期时间模型（ExpirationTime Modal）**，而如今使用的则是**泳道模型（Lane Modal）**， 它有以下两点优势：

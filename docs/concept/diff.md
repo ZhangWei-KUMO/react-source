@@ -1,6 +1,6 @@
 ---
 category: React中概念
-order: 4
+order: 5
 title: diff算法
 ---
 
@@ -96,26 +96,24 @@ diff算法是一个非常常见的算法，传统的diff算法的复杂度是 O(
 
 这样当顺序发生变动时，React仅仅做顺序调整即可。
 
-# Diff算法的实现
+# Fiber Diff算法的实现
+
+在React的源码中，`ReactChildFiber.js`是diff算法的入口文件,`reconcileChildFibers`函数是入口函数。
+
 
 ```js
-  // This API will tag the children with the side-effect of the reconciliation
-  // itself. They will be added to the side-effect list as we pass through the
-  // children and the parent.
   function reconcileChildFibers(
-    returnFiber: Fiber,
-    currentFirstChild: Fiber | null,
-    newChild: any,
-    lanes: Lanes,
-  ): Fiber | null {
-    // This function is not recursive.
-    // If the top level item is an array, we treat it as a set of children,
-    // not as a fragment. Nested arrays on the other hand will be treated as
-    // fragment nodes. Recursion happens at the normal flow.
+    returnFiber,
+    currentFirstChild,
+    newChild,
+    lanes,
+  ){
+    // reconcileChildFibers并非是一个递归函数
+    // 如果其第一层所传入的newChild参数是一个数组，我们之间将其视为一组子fiber而非fragment
+    // 但是如果是内嵌数组，则视为fragment
+    // 在一般情况下会出现递归
 
-    // Handle top level unkeyed fragments as if they were arrays.
-    // This leads to an ambiguity between <>{[...]}</> and <>...</>.
-    // We treat the ambiguous cases above the same.
+    // 检查当前newChild是否是一个fragment
     const isUnkeyedTopLevelFragment =
       typeof newChild === 'object' &&
       newChild !== null &&
@@ -125,12 +123,12 @@ diff算法是一个非常常见的算法，传统的diff算法的复杂度是 O(
       newChild = newChild.props.children;
     }
 
-    // Handle object types
     const isObject = typeof newChild === 'object' && newChild !== null;
-
+    // 如果传入的newChild是一个对象
     if (isObject) {
       switch (newChild.$$typeof) {
         case REACT_ELEMENT_TYPE:
+          // 单点元素节点diff
           return placeSingleChild(
             reconcileSingleElement(
               returnFiber,
@@ -140,6 +138,7 @@ diff算法是一个非常常见的算法，传统的diff算法的复杂度是 O(
             ),
           );
         case REACT_PORTAL_TYPE:
+          // 单portal节点diff
           return placeSingleChild(
             reconcileSinglePortal(
               returnFiber,
@@ -152,7 +151,7 @@ diff算法是一个非常常见的算法，传统的diff算法的复杂度是 O(
           if (enableLazyElements) {
             const payload = newChild._payload;
             const init = newChild._init;
-            // TODO: This function is supposed to be non-recursive.
+            // 非递归函数
             return reconcileChildFibers(
               returnFiber,
               currentFirstChild,
@@ -163,6 +162,7 @@ diff算法是一个非常常见的算法，传统的diff算法的复杂度是 O(
       }
     }
 
+    // 如果newChild 是string和number类型，则进行单文本节点diff
     if (typeof newChild === 'string' || typeof newChild === 'number') {
       return placeSingleChild(
         reconcileSingleTextNode(
@@ -174,6 +174,7 @@ diff算法是一个非常常见的算法，传统的diff算法的复杂度是 O(
       );
     }
 
+    // 如果newChild是一个数组
     if (isArray(newChild)) {
       return reconcileChildrenArray(
         returnFiber,
@@ -193,45 +194,13 @@ diff算法是一个非常常见的算法，传统的diff算法的复杂度是 O(
     }
 
     if (isObject) {
+      // 如果是位置react type则报错，这个略过...
       throwOnInvalidObjectType(returnFiber, newChild);
     }
 
-    if (__DEV__) {
-      if (typeof newChild === 'function') {
-        warnOnFunctionType(returnFiber);
-      }
-    }
-    if (typeof newChild === 'undefined' && !isUnkeyedTopLevelFragment) {
-      // If the new child is undefined, and the return fiber is a composite
-      // component, throw an error. If Fiber return types are disabled,
-      // we already threw above.
-      switch (returnFiber.tag) {
-        case ClassComponent: {
-          if (__DEV__) {
-            const instance = returnFiber.stateNode;
-            if (instance.render._isMockFunction) {
-              // We allow auto-mocks to proceed as if they're returning null.
-              break;
-            }
-          }
-        }
-        // Intentionally fall through to the next case, which handles both
-        // functions and classes
-        // eslint-disable-next-lined no-fallthrough
-        case FunctionComponent: {
-          const Component = returnFiber.type;
-          invariant(
-            false,
-            '%s(...): Nothing was returned from render. This usually means a ' +
-              'return statement is missing. Or, to render nothing, ' +
-              'return null.',
-            Component.displayName || Component.name || 'Component',
-          );
-        }
-      }
-    }
+    ...
 
-    // Remaining cases are all treated as empty.
+    // 其余的皆删除
     return deleteRemainingChildren(returnFiber, currentFirstChild);
   }
 

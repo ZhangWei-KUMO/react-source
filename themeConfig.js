@@ -7,18 +7,18 @@ const baseConfig = {
 
 const themeConfig = {
   categoryOrder: {
-    "简介": 1,
-    "React API": 2,
-    "React更新": 3,
+    简介: 1,
+    React中概念: 2,
+    React更新: 3,
     "React Fiber": 4,
-    "React中概念": 5,
-    "React源码中的类": 6,
-    "Fiber的工作循环机制": 7
+    "React API": 5,
+    React源码中的类: 6,
+    Fiber的工作循环机制: 7
   },
   typeOrder: {
     "react-source 必考点": 1,
-    "基础教程": 2,
-    "高级教程": 3,
+    基础教程: 2,
+    高级教程: 3
   }
 };
 
