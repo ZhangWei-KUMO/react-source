@@ -83,10 +83,47 @@ v = f(d)
 下面是属于fiber的一些重要字段：
 
 #### type 与 key
+
+`type`字段告诉React 当前fiber所对应的组件是什么类型，如：函数组件、class组件、还是原生HTML。
+`key`作为React作为fiber的唯一标识符，它与`type`字段存在着合作关系，当我们在diff算法的时候，在特定情况下可以重复使用当前fiber。
+
 #### child 与 sibling
+
+我们知道fiber本身是一个树结构，`child`和`sibling`描述了组件节点之间的关系，在下面的代码中我们很清楚地看到它们之间的父子兄弟关系。
+
+```js
+function Parent() {
+  // return一个单向链表
+  return [<Child1 />, <Child2 />]
+}
+```
 #### return
+
+
 #### pendingProps 与 memoizedProps
+
+如果只是从设计概念上来看，`props`仅仅是函数所传入的参数，对于fiber来说`pendingProps`是在fiber尚未执行时进行设置，
+而`memoizedProps`则在fiber执行结束之后设置。这个两个属性的作用在于，当fiber判断两个属性值相同时，在执行更新函数的时候便直接复用上一次的输出值，避免不必要的计算。
+
 #### pendingWorkPriority
+
+一个32位数值用以表示当前task work的优先级。
+
 #### alternate
+
+fiber分为两种状态：
+
+1. flushed fiber
+2. workInProgress fiber
+
+**flush**的作用在于将output对象，最终渲染到屏幕上。
+**workInProgress**表示正在进行中的fiber。从设计概念上来说就是尚未返回`stack frame`的fiber对象。
+
+**alternate字段是一个非常重要字段，里面包含了fiber大量的细节值得源码阅读者自行阅读。**
+
 #### output
+
+**host component**：React应用程序的叶节点，如div,span。
+
+从设计概念上来看fiber的output，是函数返回值。所有的fiber最终都会有返回值，都会转换成**host component**并挂载到tree上。最后都是提供给渲染执行环境。而render的作用就在于定义output是如何被创建和更新。
 
