@@ -1,18 +1,10 @@
-var cssText = "width;";
-function repeat(str, n) {
-  let result = ''
-  if (n > 0) {
-    while (true) {
-      if (n & 1) result += str
-      n >>>= 1
-      if (n <= 0) break
-      str += str
-    }
-  }
-  return result
+const CN = Symbol("China");
+const US = Symbol("United State");
+const JS = Symbol("Japan");
+const countries = {
+  [CN]: "中国",
+  [US]: "美国",
+  [JS]: "日本"
 }
 
-
-let r = repeat(cssText, 4);
-
-
+console.log(countries[CN]);

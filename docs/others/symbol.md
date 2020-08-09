@@ -1,6 +1,6 @@
 ---
-category: 简介
-order: 4
+category: 其他
+order: 1
 title: symbol 在 React中应用
 ---
 
@@ -9,6 +9,24 @@ title: symbol 在 React中应用
 1. 不是构造函数，不存在`new Symbol()`;
 2. 有一个特殊的**全局注册表**概念;
 3. 具有静态类型和静态方法;
+4. 它创建一个匿名，唯一的值
+
+比如我们现在创建一个对象，我们希望它内部所有的key都是具有唯一性：
+
+```js
+const CN = Symbol("China");
+const US = Symbol("United State");
+const JS = Symbol("Japan");
+const countries = {
+  [CN]: "中国",
+  [US]: "美国",
+  [JS]: "日本"
+}
+
+console.log(countries[CN])
+```
+
+表面上我们输出了`中国`，但是这里的`CN`每次调用的时候值是不同的。
 
 
 ## React中的Symbol
@@ -37,8 +55,7 @@ export function getIteratorFn(maybeIterable =>{
   if (maybeIterable === null || typeof maybeIterable !== 'object') {
     return null;
   }
-  const maybeIterator =
-    (MAYBE_ITERATOR_SYMBOL && maybeIterable[MAYBE_ITERATOR_SYMBOL]) ||
+  const maybeIterator = (MAYBE_ITERATOR_SYMBOL && maybeIterable[MAYBE_ITERATOR_SYMBOL]) ||
     maybeIterable[FAUX_ITERATOR_SYMBOL];
   if (typeof maybeIterator === 'function') {
     return maybeIterator;
@@ -46,3 +63,19 @@ export function getIteratorFn(maybeIterable =>{
   return null;
 }
 ```
+
+尽管`Symbol.for()`和`Symbol()`两种写法都可以生成一个新的Symbol(),但是`Symbol.for()`会将参数注册到全局注册表中，供搜索。
+
+```js
+// 尽管常量A_TYPE和常量B_TYPE的值都是Symbol("react.element")
+// 但是Symbol.for("react.element")在全局注册表注册key"react.element"
+const A_TYPE = Symbol.for("react.element");
+const B_TYPE = Symbol("react.element");
+
+const A_VALUE = Symbol.keyFor(A_TYPE);
+// 我们可以通过keyFor方法查询到 "react.element"
+const B_VALUE = Symbol.keyFor(B_TYPE);
+// 而对于B_VALUE来说则输出undefined
+console.log(A_VALUE, B_VALUE);
+```
+

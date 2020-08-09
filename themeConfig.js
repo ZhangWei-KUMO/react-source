@@ -13,7 +13,8 @@ const themeConfig = {
     "React Fiber": 4,
     "React API": 5,
     React源码中的类: 6,
-    Fiber的工作循环机制: 7
+    Fiber的工作循环机制: 7,
+    其他: 8
   },
   typeOrder: {
     "react-source 必考点": 1,
