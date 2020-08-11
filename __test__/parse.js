@@ -1,10 +1,12 @@
-const CN = Symbol("China");
-const US = Symbol("United State");
-const JS = Symbol("Japan");
-const countries = {
-  [CN]: "中国",
-  [US]: "美国",
-  [JS]: "日本"
+function escape(key) {
+  const escapeRegex = /[=:]/g;
+  const escaperLookup = {
+    "=": "=0",
+    ":": "=2"
+  };
+  const escapedString = key.replace(escapeRegex, (match) => escaperLookup[match]);
+  console.log(`$${escapedString}`);
+  return `$${escapedString}`;
 }
 
-console.log(countries[CN]);
+escape("=:2");
