@@ -20,10 +20,10 @@ ReactDOM这个库中暴露的API和属性位于`ReactDOM.js`，我们将这些AP
 export {
   render, // 最为常用的客户端渲染入口
   hydrate, // 服务端渲染入口
-  flushSync, // 组件内部同步更新state
   unmountComponentAtNode,// 卸载组件
   createPortal,// 将子节点渲染DOM节点中，但是该节点又脱离在DOM层次结构之外。[更多内容](https://stackoverflow.com/questions/46393642/how-to-use-reactdom-createportal-in-react-16)
   ReactVersion as version,  // React版本号
+  flushSync, // 组件内部同步更新state
 ```
 
 > flushSync刷新整个DOM树，并实际上强制完全重新渲染以进行一次调用内发生的更新。除非是特殊情况开发中基本不用这个API
@@ -34,8 +34,6 @@ export {
 export {
   createRoot,
   createBlockingRoot,
-  // [更多内容](https://github.com/facebook/react/pull/18756)
-  createEventHandle as unstable_createEventHandle,
 }
 ```
 `
@@ -44,7 +42,7 @@ export {
 
 ```js
 export {
-  // 批量更新策略 [更多内容](https://zhuanlan.zhihu.com/p/78516581)
+  createEventHandle as unstable_createEventHandle,
   batchedUpdates as unstable_batchedUpdates,
   flushControlled as unstable_flushControlled,
   scheduleHydration as unstable_scheduleHydration,
@@ -76,3 +74,7 @@ const Internals = {
   ],
 };
 ```
+
+## 总结
+
+在接下来的章节中，我们将首先针对`Internals`进行讲解，然后具体讲解`render`等常规API的源码实现。
