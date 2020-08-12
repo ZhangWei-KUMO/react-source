@@ -14,7 +14,7 @@ const themeConfig = {
     "React API": 5,
     React源码中的类: 6,
     Fiber的工作循环机制: 7,
-    "React DOM": 8
+    "React DOM": 8,
     其他: 9
   },
   typeOrder: {
