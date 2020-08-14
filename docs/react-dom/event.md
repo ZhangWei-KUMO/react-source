@@ -51,11 +51,12 @@ export function registerSimpleEvents() {
 
 ## listenToNativeEvent
 
+当我们在React DOM中注册一个事件时，最终的落脚点都是**listenToNativeEvent**。
 ```js
 export function listenToNativeEvent(
   domEventName:,
   isCapturePhaseListener,
-  rootContainerElement,
+  rootContainerElement, // React项目容器元素
   targetElement,
   isPassiveListener?,
   listenerPriority?,
@@ -67,66 +68,45 @@ export function listenToNativeEvent(
       // 如点击文本框，它会触发三个原生事件， focus -> selectionchange -> click
     target = rootContainerElement.ownerDocument;
   }
-  // If the event can be delegated (or is capture phase), we can
-  // register it to the root container. Otherwise, we should
-  // register the event to the target element and mark it as
-  // a non-delegated event.
-  if (
-    targetElement !== null &&
-    !isCapturePhaseListener &&
-    nonDelegatedEvents.has(domEventName)
-  ) {
-    // For all non-delegated events, apart from scroll, we attach
-    // their event listeners to the respective elements that their
-    // events fire on. That means we can skip this step, as event
-    // listener has already been added previously. However, we
-    // special case the scroll event because the reality is that any
-    // element can scroll.
-    // TODO: ideally, we'd eventually apply the same logic to all
-    // events from the nonDelegatedEvents list. Then we can remove
-    // this special case and use the same logic for all events.
-    if (domEventName !== 'scroll') {
-      return;
-    }
-    eventSystemFlags |= IS_NON_DELEGATED;
-    target = targetElement;
-  }
+  // if (targetElement !== null &&!isCapturePhaseListener &&nonDelegatedEvents.has(domEventName)) {
+  //   if (domEventName !== 'scroll') {
+  //     return;
+  //   }
+  //   eventSystemFlags |= IS_NON_DELEGATED;
+  //   target = targetElement;
+  // }
   const listenerMap = getEventListenerMap(target);
   const listenerMapKey = getListenerMapKey(
     domEventName,
     isCapturePhaseListener,
   );
-  const listenerEntry = ((listenerMap.get(
-    listenerMapKey,
-  ): any): ElementListenerMapEntry | void);
+  const listenerEntry = listenerMap.get(listenerMapKey);
   const shouldUpgrade = shouldUpgradeListener(listenerEntry, isPassiveListener);
 
-  // If the listener entry is empty or we should upgrade, then
-  // we need to trap an event listener onto the target.
-  if (listenerEntry === undefined || shouldUpgrade) {
-    // If we should upgrade, then we need to remove the existing trapped
-    // event listener for the target container.
-    if (shouldUpgrade) {
-      removeTrappedEventListener(
-        target,
-        domEventName,
-        isCapturePhaseListener,
-        listenerEntry.listener,
-      );
-    }
-    if (isCapturePhaseListener) {
-      eventSystemFlags |= IS_CAPTURE_PHASE;
-    }
-    const listener = addTrappedEventListener(
-      target,
-      domEventName,
-      eventSystemFlags,
-      isCapturePhaseListener,
-      false,
-      isPassiveListener,
-      listenerPriority,
-    );
-    listenerMap.set(listenerMapKey, { passive: isPassiveListener, listener });
-  }
+  // if (listenerEntry === undefined || shouldUpgrade) {
+  //   // If we should upgrade, then we need to remove the existing trapped
+  //   // event listener for the target container.
+  //   if (shouldUpgrade) {
+  //     removeTrappedEventListener(
+  //       target,
+  //       domEventName,
+  //       isCapturePhaseListener,
+  //       listenerEntry.listener,
+  //     );
+  //   }
+  //   if (isCapturePhaseListener) {
+  //     eventSystemFlags |= IS_CAPTURE_PHASE;
+  //   }
+  //   const listener = addTrappedEventListener(
+  //     target,
+  //     domEventName,
+  //     eventSystemFlags,
+  //     isCapturePhaseListener,
+  //     false,
+  //     isPassiveListener,
+  //     listenerPriority,
+  //   );
+  //   listenerMap.set(listenerMapKey, { passive: isPassiveListener, listener });
+  // }
 }
 ```
