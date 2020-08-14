@@ -1,6 +1,6 @@
 const baseConfig = {
   logo: "https://zh-hans.reactjs.org/favicon.ico",
-  projectName: "React源码解析（16.8.6）",
+  projectName: "React17 源码解析",
   homeUrl: "/getting-started-cn.html",
   library: "https://github.com/ZhangWei-KUMO/react-source"
 };

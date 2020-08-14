@@ -4,7 +4,7 @@ order: 10
 title: React DOM中的NameSpace
 ---
 
-
+ReactDOM将Namesapce分为`HTML`,`MATH`,`SVG`三种，在默认情况下是HTML。在`createElement`和`rendDOM()`中有着核心地位。
 
 ```js
 // DOM的命名空间
