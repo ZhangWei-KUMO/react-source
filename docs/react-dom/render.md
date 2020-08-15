@@ -4,6 +4,18 @@ order: 2
 title: React DOM render
 ---
 
+在React中对于渲染器有着级别之分，分为**PrimaryRenderer**和**SecondaryRenderer**。
+
+在浏览器端：
+
+* ReactDOM是PrimaryRenderer
+* ReactART是SecondaryRenderer（用于绘制Canvas和SVG）
+
+在移动端：
+
+* React Native是PrimaryRenderer
+* Fabric 是SecondaryRenderer
+  
 所有的React开发者接触react都是从`reactDOM.render()`这个方法开始的。下面就是一段非常常见的业务代码：
 
 ```js
