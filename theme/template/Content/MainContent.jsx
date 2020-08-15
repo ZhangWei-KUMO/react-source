@@ -45,7 +45,7 @@ class MainContent extends Component {
   }
 
 
-  getMenuItems(footerNavIcons = {}) {
+  getMenuItem(footerNavIcons = {}) {
     const { themeConfig, intl } = this.props;
     const { locale } = intl;
     // 核心代码：获取模块数据
@@ -92,26 +92,21 @@ class MainContent extends Component {
       return null;
     }
     const title = item.title[locale] || item.title;
-    const text = isTop
-      ? title
-      : [
-        <span key="english">{title}</span>,
-        <span className="chinese" key="chinese">
-          {item.subtitle}
-        </span>
-      ];
+    const text = <span key="english">{title}</span>
     const { disabled } = item;
     const url = item.filename.replace(/(\/index)?((\.zh-CN)|(\.en-US))?\.md$/i, "").toLowerCase();
     const child = (
       <Link to={url}>
-        {before}
+        {/* {before} */}
         {text}
-        {after}
+        {/* {after} */}
       </Link>
     );
 
     return (
-      <Menu.Item key={key.toLowerCase()} disabled={disabled}>
+      <Menu.Item key={key.toLowerCase()}
+        disabled={disabled}
+      >
         {child}
       </Menu.Item>
     );
@@ -123,8 +118,8 @@ class MainContent extends Component {
     const { openKeys } = this.state;
     const activeMenuItem = getActiveMenuItem(this.props);
 
-    const menuItems = this.getMenuItems();
-    const menuItemsForFooterNav = this.getMenuItems({
+    const menuItems = this.getMenuItem();
+    const menuItemsForFooterNav = this.getMenuItem({
       before: <Icon className="footer-nav-icon-before" type="left" />,
       after: <Icon className="footer-nav-icon-after" type="right" />
     });
@@ -150,9 +145,7 @@ class MainContent extends Component {
         <Row>
           {isMobile ? null : (
             <Col xxl={4} xl={5} lg={6} md={24} sm={24} xs={24} className="main-menu">
-              {/* <Affix> */}
               <section className="main-menu-inner">{menuChild}</section>
-              {/* </Affix> */}
             </Col>
           )}
           <Col xxl={20} xl={19} lg={18} md={24} sm={24} xs={24}>

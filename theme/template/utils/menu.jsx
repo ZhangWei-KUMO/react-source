@@ -23,20 +23,3 @@ export function getFooterNav(menuItems, activeMenuItem) {
   const next = menuItemsList[activeMenuItemIndex + 1];
   return { prev, next };
 }
-
-// export function bindScroller(scroller) {
-//   const elements = scroller.setup({ step: ".markdown > h2, .code-box", offset: 0 });
-//   if (elements) {
-//     elements.onStepEnter(({ element }) => {
-//       if (element) {
-//         Array.prototype.forEach.call(document.querySelectorAll(".toc-affix li a"), (node) => {
-//           node.className = "";
-//         });
-//         const currentNode = document.querySelectorAll(`.toc-affix li a[href="#${element.id}"]`)[0];
-//         if (currentNode) {
-//           currentNode.className = "current";
-//         }
-//       }
-//     });
-//   }
-// }
