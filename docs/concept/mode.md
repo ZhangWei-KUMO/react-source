@@ -1,17 +1,17 @@
 ---
 category: React基础概念
 order: 0
-title: Mode
+title: Mode React的运行模式
 ---
 
-**Mode** 是React中基础概念。它定义于`ReactTypeofMode.js`文件中。
+**Mode** 是React17中的强调的新概念。它定义于`ReactTypeofMode.js`文件中。 它的作用在于定义当前React的渲染模式。在React17之前，尽管也存在Mode这个概念，但是相对边缘化。
 
-| 名称             | 值      | 解释 |
-| :--------------- | :------ | :--- |
-| NoMode           | 0b00000 | 解释 |
-| StrictMode       | 0b00001 | 解释 |
-| BlockingMode     | 0b00010 | 解释 |
-| ConcurrentMode   | 0b00100 | 解释 |
-| ProfileMode      | 0b01000 | 解释 |
-| DebugTracingMode | 0b10000 | 解释 |
+| 名称             | 值      | 解释                                                                                                   |
+| :--------------- | :------ | :----------------------------------------------------------------------------------------------------- |
+| NoMode           | 0b00000 | 无模式，一般不会使用                                                                                   |
+| StrictMode       | 0b00001 | 严格模式，不会渲染任何可见的 UI。它为其后代元素触发额外的检查和警告，尤其是用于检查是否存在废弃的API。 |
+| BlockingMode     | 0b00010 | 传统的React模式，render，hydrate都是这类模式                                                           |
+| ConcurrentMode   | 0b00100 | React17新出现的并发模式                                                                                |
+| ProfileMode      | 0b01000 | 性能测试模式，这个一般我们可以在开发环境下，对性能进行测试时会经常使用                                 |
+| DebugTracingMode | 0b10000 | debug模式                                                                                              |
 
