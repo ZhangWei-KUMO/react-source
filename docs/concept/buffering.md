@@ -1,5 +1,5 @@
 ---
-category: React中概念
+category: React基础概念
 order: 1
 title: Double Buffering 双缓冲机制
 ---

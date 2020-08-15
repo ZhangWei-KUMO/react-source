@@ -1,33 +1,35 @@
 ---
-category: React更新
-order: 5
+category: React基础概念
+order: 11
 title: WorkInProgress | 工作树
 ---
 
-`WorkInProgress` 是Fiber的核心对象之一，React的更新操作均基于`WorkInProgress`
+`WorkInProgress`是React双缓冲机制中的运行fiber树，由current fiber的`alternate`属性所指向。
+
 ```js
-// 传入当前Fiber 和挂起的Props
+// 传入current Fiber 和挂起的Props
 export function createWorkInProgress(current, pendingProps) {
+  // 第一步从current fiber树的备胎属性中获取值；
   let workInProgress = current.alternate;
+  // 首次渲染必然为空
   if (workInProgress === null) {
-    // We use a double buffering pooling technique because we know that we'll
-    // only ever need at most two versions of a tree. We pool the "other" unused
-    // node that we're free to reuse. This is lazily created to avoid allocating
-    // extra objects for things that are never updated. It also allow us to
-    // reclaim the extra memory if needed.
+    // 初始化一个普通fiber对象
     workInProgress = createFiber(
       current.tag,
       pendingProps,
       current.key,
       current.mode,
     );
+    // 
     workInProgress.elementType = current.elementType;
     workInProgress.type = current.type;
+    // 赋值挂载的dom
     workInProgress.stateNode = current.stateNode;
-
+    // 将备胎属性反向指回current fiber
     workInProgress.alternate = current;
     current.alternate = workInProgress;
   } else {
+    // 真正有价值的代码在这里，此时pendingProps会是一个新的props
     workInProgress.pendingProps = pendingProps;
     // Needed because Blocks store data on type.
     workInProgress.type = current.type;
@@ -35,24 +37,9 @@ export function createWorkInProgress(current, pendingProps) {
     // We already have an alternate.
     workInProgress.subtreeTag = NoSubtreeEffect;
     workInProgress.deletions = null;
-
-    // The effect list is no longer valid.
-    workInProgress.nextEffect = null;
-    workInProgress.firstEffect = null;
-    workInProgress.lastEffect = null;
-
-    if (enableProfilerTimer) {
-      // We intentionally reset, rather than copy, actualDuration & actualStartTime.
-      // This prevents time from endlessly accumulating in new commits.
-      // This has the downside of resetting values for different priority renders,
-      // But works for yielding (the common case) and should support resuming.
-      workInProgress.actualDuration = 0;
-      workInProgress.actualStartTime = -1;
-    }
   }
 
-  // Reset all effects except static ones.
-  // Static effects are not specific to a render.
+  // 以下都只是workInProgress对current fiber的复制而已。
   workInProgress.effectTag = current.effectTag & StaticMask;
   workInProgress.childLanes = current.childLanes;
   workInProgress.lanes = current.lanes;
@@ -62,8 +49,6 @@ export function createWorkInProgress(current, pendingProps) {
   workInProgress.memoizedState = current.memoizedState;
   workInProgress.updateQueue = current.updateQueue;
 
-  // Clone the dependencies object. This is mutated during the render phase, so
-  // it cannot be shared with the current fiber.
   const currentDependencies = current.dependencies;
   workInProgress.dependencies =
     currentDependencies === null
@@ -74,15 +59,12 @@ export function createWorkInProgress(current, pendingProps) {
           responders: currentDependencies.responders,
         };
 
-  // These will be overridden during the parent's reconciliation
+  // 兄弟节点保持一致
   workInProgress.sibling = current.sibling;
+  // 索引值保持一致
   workInProgress.index = current.index;
+  // ref所指ref保持一致
   workInProgress.ref = current.ref;
-
-  if (enableProfilerTimer) {
-    workInProgress.selfBaseDuration = current.selfBaseDuration;
-    workInProgress.treeBaseDuration = current.treeBaseDuration;
-  }
   return workInProgress;
 }
 ```

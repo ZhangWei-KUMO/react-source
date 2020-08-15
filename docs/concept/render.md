@@ -1,5 +1,5 @@
 ---
-category: React中概念
+category: React基础概念
 order: 9
 title: Renderer
 ---

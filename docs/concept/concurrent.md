@@ -1,5 +1,5 @@
 ---
-category: React中概念
+category: React基础概念
 order: 2
 title: Concurrent Mode | 并发模式
 ---

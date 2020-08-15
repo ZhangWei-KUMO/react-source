@@ -1,5 +1,5 @@
 ---
-category: React中概念
+category: React基础概念
 order: 5
 title: diff算法
 ---

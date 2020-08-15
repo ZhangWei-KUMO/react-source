@@ -8,13 +8,12 @@ const baseConfig = {
 const themeConfig = {
   categoryOrder: {
     简介: 1,
-    React中概念: 2,
-    React更新: 3,
+    React基础概念: 2,
+    "React DOM": 3,
+    React更新: 8,
     "React Fiber": 4,
     "React API": 5,
-    React源码中的类: 6,
     Fiber的工作循环机制: 7,
-    "React DOM": 8,
     其他: 9
   },
   typeOrder: {

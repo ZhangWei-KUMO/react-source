@@ -2,7 +2,7 @@
 export function updateAppMessageShareData(link, title, imgUrl, desc = "") {
   wx.ready(() => {
     wx.updateAppMessageShareData({
-      title: `${title}- React源码解析`,
+      title: `${title}- React17源码解析`,
       desc,
       link,
       imgUrl,
@@ -17,7 +17,7 @@ export function updateAppMessageShareData(link, title, imgUrl, desc = "") {
 export function updateTimelineShareData(link, title, imgUrl) {
   wx.ready(() => {
     wx.updateTimelineShareData({
-      title: `${title} - React源码解析`,
+      title: `${title} - React17源码解析`,
       link,
       imgUrl,
       success() {

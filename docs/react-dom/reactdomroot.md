@@ -1,10 +1,10 @@
 ---
 category: React DOM
-order: 6
+order: 3
 title: 万物之源ReactDOMRoot
 ---
 
-**ReactDOMRoot**构造函数可以说是React在浏览器环境中的万物之源，react-dom可以通过`render`,`createRoot`方法初始化一个`reactRoot`实例。
+**ReactDOMRoot**构造函数可以说是React在浏览器环境中的万物之源，react-dom可以通过`render`,`createRoot`方法初始化一个`reactRoot`实例。在上一节我们我知道reactDOM.render 的整个完整流程吗，这一节我们的目的是深入了解这个ReactDOMRoot底层实现的细节。
 
 ### render方法
 
@@ -119,3 +119,6 @@ export function markContainerAsRoot(hostRoot, node) {
   node[internalContainerInstanceKey] = hostRoot;
 }
 ```
+
+---
+ 参考资料：https://juejin.im/post/6844903679246467086#comment

@@ -1,6 +1,6 @@
 ---
 category: React DOM
-order: 7
+order: 2
 title: React DOM render
 ---
 

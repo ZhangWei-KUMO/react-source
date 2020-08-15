@@ -1,7 +1,7 @@
 ---
-category: React中概念
+category: React基础概念
 order: 8
-title:  Fiber Tag
+title:  Fiber Tag查询表
 ---
 
 Fiber的`tag`是fiber概念中非常重要的概念，尤其是对于`workInProgress Fiber`, 在更新fiber的时候不同的tag会执行不同的函数。

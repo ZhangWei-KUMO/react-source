@@ -1,5 +1,5 @@
 ---
-category: React中概念
+category: React基础概念
 order: 4
 title: Fiber架构
 ---
@@ -76,9 +76,66 @@ v = f(d)
 
 在下一节中，我们将更多地研究fiber的结构。
 
-### fiber的结构
+**FiberNode**是React核心类之一，它由`createFiber`构造函数创建出一个fiber实例。代码位于`ReactFiber.js`中.
 
-具体来说，fiber是一个JavaScript对象，其中包含有关组件，其输入和输出的信息。fiber不仅对应了一个stack frame，也对应一个组件实例。
+## 什么是Fiber
+
+**Fiber是React16之后的核心概念，每一个ReactElement都会对应一个Fiber对象，它会记录一个节点的各种状态**。对于我们在开发中经常使用的`state`和`props`，它们实际上是记录在Fiber对象上。每一次更新，都是先更新Fiber对象，再更新Component组件。
+
+ > 在**Class Component**中存在`this`关键字，当我们在调用`this.setState()`方法时，我们会误以为state的更新是在Component内部进行，实际并非如此。正是React基于Fiber对象的更新，所以尽管**functional Component**组件没有`this`关键字，但是我们依然可以通过Fiber对象，通过`hooks`实现状态更新。
+
+<img src="https://test-1253763202.cos.ap-shanghai.myqcloud.com/docs/react-source/dom_tree.png" style="width:100%" alt="树架构"/>
+
+上面是一张React Element Tree的结构图，那么我们看下它所对应的Fiber Tree结构图是怎样的：
+
+<img src="https://test-1253763202.cos.ap-shanghai.myqcloud.com/docs/react-source/fiberschedule.png" style="width:100%" alt="Fiber架构"/>
+
+```js
+function FiberNode(tag,pendingProps,key,mode) {
+  // Fiber类型，如：ClassComponent、HostRoot、HostComponent、HostText
+  this.tag = tag;
+  this.key = key;
+  this.elementType = null;
+  // ReactElement类型,如：Function|String|Symbol|Number|Object
+  this.type = null;
+  //FiberNode对应的Dom、FiberRoot、ReactComponent实例
+  this.stateNode = null;
+
+  // 父级fiber
+  this.return = null;
+  // 子fiber
+  this.child = null;
+  // 兄弟fiber
+  this.sibling = null;
+  this.index = 0;
+  // ref用于挂载dom
+  this.ref = null;
+  // pendingProps 代表 componentWillReceiveProps 的第一个参数,即传入进来的新props
+  this.pendingProps = pendingProps;
+  // 当前props
+  this.memoizedProps = null;
+  // 更新列队
+  this.updateQueue = null;
+  // 当前state
+  this.memoizedState = null;
+  // 
+  this.dependencies = null;
+  this.mode = mode;
+  // Effects
+  // this.effectTag = NoEffect;
+  // this.subtreeTag = NoSubtreeEffect;
+  // this.deletions = null;
+  // this.nextEffect = null;
+
+  // this.firstEffect = null;
+  // this.lastEffect = null;
+
+  this.lanes = NoLanes;
+  this.childLanes = NoLanes;
+  // 每一个fiber都有一个备胎指针指向它下一个进行替换的同级fiber
+  this.alternate = null;
+}
+```
 
 下面是属于fiber的一些重要字段：
 
@@ -97,33 +154,74 @@ function Parent() {
   return [<Child1 />, <Child2 />]
 }
 ```
-#### return
-
-
 #### pendingProps 与 memoizedProps
 
 如果只是从设计概念上来看，`props`仅仅是函数所传入的参数，对于fiber来说`pendingProps`是在fiber尚未执行时进行设置，
 而`memoizedProps`则在fiber执行结束之后设置。这个两个属性的作用在于，当fiber判断两个属性值相同时，在执行更新函数的时候便直接复用上一次的输出值，避免不必要的计算。
 
-#### pendingWorkPriority
 
-一个32位数值用以表示当前task work的优先级。
+## FiberRootNode
 
-#### alternate
+**FiberRootNode**是FiberNode的特殊形式，它是整个应用的起点，记录整个应用更新过程的所有信息，包含挂载的目标节点
 
-fiber分为两种状态：
+```js
+function FiberRootNode(containerInfo, tag, hydrate) {
+  this.tag = tag;
+  // 就是我们挂载的DOM节点
+  this.containerInfo = containerInfo;
+  // react-dom中不涉及，持久化更新使用。
+  this.pendingChildren = null;
+  // Root Fiber/uninitializedFiber, 每一个React应用都会有一个对应的根Fiber
+  this.current = null;
+  this.pingCache = null;
+  // 在某个更新中，已经完成的任务。当完成更新后，就会将数据渲染到DOM节点上。
+  // 而这个过程的本质就是读取finishedWork数据。
+  this.finishedWork = null;
+  // 
+  this.timeoutHandle = noTimeout;
+  // 只有在调用renderSubtreeInfoContainer API才会使用到，可以忽略
+  this.context = null;
+  this.pendingContext = null;
+  // 是否需要和之前的DOM节点进行合并
+  this.hydrate = hydrate;
+  this.callbackNode = null;
+  this.callbackPriority = NoLanePriority;
+  this.eventTimes = createLaneMap(NoLanes);
+  this.expirationTimes = createLaneMap(NoTimestamp);
 
-1. flushed fiber
-2. workInProgress fiber
+  this.pendingLanes = NoLanes;
+  this.suspendedLanes = NoLanes;
+  this.pingedLanes = NoLanes;
+  this.expiredLanes = NoLanes;
+  this.mutableReadLanes = NoLanes;
+  this.finishedLanes = NoLanes;
 
-**flush**的作用在于将output对象，最终渲染到屏幕上。
-**workInProgress**表示正在进行中的fiber。从设计概念上来说就是尚未返回`stack frame`的fiber对象。
+  this.entangledLanes = NoLanes;
+  this.entanglements = createLaneMap(NoLanes);
 
-**alternate字段是一个非常重要字段，里面包含了fiber大量的细节值得源码阅读者自行阅读。**
+  if (supportsHydration) {
+    this.mutableSourceEagerHydrationData = null;
+  }
 
-#### output
+  if (enableSchedulerTracing) {
+    this.interactionThreadID = unstable_getThreadID();
+    this.memoizedInteractions = new Set();
+    this.pendingInteractionMap = new Map();
+  }
+  if (enableSuspenseCallback) {
+    this.hydrationCallbacks = null;
+  }
+}
 
-**host component**：React应用程序的叶节点，如div,span。
-
-从设计概念上来看fiber的output，是函数返回值。所有的fiber最终都会有返回值，都会转换成**host component**并挂载到tree上。最后都是提供给渲染执行环境。而render的作用就在于定义output是如何被创建和更新。
-
+export function createFiberRoot(containerInfo,tag,hydrate,hydrationCallbacks) {
+  const root = new FiberRootNode(containerInfo, tag, hydrate);
+  if (enableSuspenseCallback) {
+    root.hydrationCallbacks = hydrationCallbacks;
+  }
+  const uninitializedFiber = createHostRootFiber(tag);
+  root.current = uninitializedFiber;
+  uninitializedFiber.stateNode = root;
+  initializeUpdateQueue(uninitializedFiber);
+  return root;
+}
+```
