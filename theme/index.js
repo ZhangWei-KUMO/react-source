@@ -31,10 +31,10 @@ module.exports = {
     "bisheng-plugin-react?lang=__react"
   ],
   routes: {
-    path: "/",
+    path: "",
     component: "./template/Layout/index",
     indexRoute: {
-      path: "/docs/introduction/getting_started",
+      path: "/",
       component: contentTmpl
     },
     childRoutes: [

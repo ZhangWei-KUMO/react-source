@@ -203,11 +203,6 @@ function FiberRootNode(containerInfo, tag, hydrate) {
     this.mutableSourceEagerHydrationData = null;
   }
 
-  if (enableSchedulerTracing) {
-    this.interactionThreadID = unstable_getThreadID();
-    this.memoizedInteractions = new Set();
-    this.pendingInteractionMap = new Map();
-  }
   if (enableSuspenseCallback) {
     this.hydrationCallbacks = null;
   }

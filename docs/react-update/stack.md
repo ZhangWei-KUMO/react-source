@@ -39,9 +39,5 @@ function prepareFreshStack(root, lanes) {
   workInProgressRootSkippedLanes = NoLanes;
   workInProgressRootUpdatedLanes = NoLanes;
   workInProgressRootPingedLanes = NoLanes;
-
-  if (enableSchedulerTracing) {
-    spawnedWorkDuringRender = null;
-  }
 }
 ```
