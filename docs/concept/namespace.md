@@ -30,7 +30,7 @@ export function getIntrinsicNamespace(type) {
       return HTML_NAMESPACE;
   }
 }
-
+// 获取子命名空间
 export function getChildNamespace(
   parentNamespace: string | null,
   type: string,

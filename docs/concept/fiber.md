@@ -121,14 +121,15 @@ function FiberNode(tag,pendingProps,key,mode) {
   // 
   this.dependencies = null;
   this.mode = mode;
-  // Effects
-  // this.effectTag = NoEffect;
-  // this.subtreeTag = NoSubtreeEffect;
-  // this.deletions = null;
-  // this.nextEffect = null;
-
-  // this.firstEffect = null;
-  // this.lastEffect = null;
+  // 在首次渲染的时候是不存在effect的
+  this.effectTag = NoEffect;
+  // 在首次渲染的时候子树也不存在effect
+  this.subtreeTag = NoSubtreeEffect;
+  this.deletions = null;
+  //在首次渲染的时候 firstEffect,lastEffect,nextEffect三个指针均为初始时均为null
+  this.nextEffect = null;
+  this.firstEffect = null;
+  this.lastEffect = null;
 
   this.lanes = NoLanes;
   this.childLanes = NoLanes;
