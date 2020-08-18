@@ -1,6 +1,6 @@
 ---
 category: 简介
-order: 3
+order: 4
 title: JSX与React.js的关系
 ---
 

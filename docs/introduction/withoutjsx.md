@@ -1,7 +1,7 @@
 ---
 category: 简介
-order: 4
-title: React不使用JSX
+order: 5
+title: JSX的背后是React.createElement()
 ---
 
 JSX不是使用React的必要条件。当您不想在构建环境中设置编译时，我们也可以直接编写React代码。虽然在业务代码中我们一般不会这么干，但是直接写纯js的React代码更有利于我们理解源码。

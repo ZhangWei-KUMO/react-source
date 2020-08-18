@@ -1,8 +1,9 @@
 ---
-category: Fiber的工作循环机制
-order: 2
-title: UpdateQueues
+category: React更新
+order: 9
+title: 更新队列
 ---
+
 
 **UpdateQueues**是React优先更新的一个链表。类似于**fibers**,**UpdateQueues**存在两个queue，一个`current queue`表示当前显示器上的queue，一个是`work-in-progress queue`, 在提交renderer之前用于计算和异步处理的queue。这也是一个典型的**double buffering**模型格式。假设`work-in-progress queue`在最终渲染之前由于某种原因被中断，React会基于`current queue`复制出一个新的`work-in-progress queue`。
 

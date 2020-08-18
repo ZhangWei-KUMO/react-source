@@ -1,7 +1,7 @@
 ---
-category: Fiber的工作循环机制
-order: 4
-title: 获取泳道
+category: React更新
+order: 8
+title: Lane的获取
 ---
 
 
@@ -22,7 +22,7 @@ export function getNextLanes(root, wipLanes) {
   const suspendedLanes = root.suspendedLanes;
   const pingedLanes = root.pingedLanes;
 
-  // Check if any work has expired.
+  // 先检查lanes是否过期
   if (expiredLanes !== NoLanes) {
     nextLanes = expiredLanes;
     nextLanePriority = return_highestLanePriority = SyncLanePriority;

@@ -188,14 +188,8 @@ export function markRootUpdated(root,updateLane,eventTime) {
 
 ```js
 
-// This is the entry point for synchronous tasks that don't go
-// through Scheduler
+// 从Root开始执行同步工作
 function performSyncWorkOnRoot(root) {
-  invariant(
-    (executionContext & (RenderContext | CommitContext)) === NoContext,
-    'Should not already be working.',
-  );
-
   flushPassiveEffects();
 
   let lanes;
@@ -328,6 +322,7 @@ function ensureRootIsScheduled(root, currentTime) {
       performSyncWorkOnRoot.bind(null, root),
     );
   } else if (newCallbackPriority === SyncBatchedLanePriority) {
+    // 如果是同步批量
     newCallbackNode = scheduleCallback(
       ImmediateSchedulerPriority,
       performSyncWorkOnRoot.bind(null, root),

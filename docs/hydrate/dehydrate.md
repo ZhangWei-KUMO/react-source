@@ -1,5 +1,5 @@
 ---
-category: React基础概念
+category: 服务端渲染
 order: 16
 title: Dehydrate 脱水
 ---

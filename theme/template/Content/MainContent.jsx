@@ -32,7 +32,9 @@ class MainContent extends Component {
     if (!state.openKeys) {
       return {
         ...state,
-        openKeys: screen.width > 700 ? getSideBarOpenKeys(props) : undefined
+        // 放开注释可以支持桌面端导航展开
+        // openKeys: screen.width > 700 ? getSideBarOpenKeys(props) : undefined
+        openKeys: undefined
       };
     }
     return null;

@@ -1,5 +1,5 @@
 ---
-category: React基础概念
+category: 懒加载
 order: 19
 title: Memo缓存组件
 ---

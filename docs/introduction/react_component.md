@@ -1,6 +1,6 @@
 ---
-category: React API
-order: 2
+category: 简介
+order: 6
 title: React Component
 ---
 

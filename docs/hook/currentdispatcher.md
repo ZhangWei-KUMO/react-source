@@ -1,5 +1,5 @@
 ---
-category: React基础概念
+category: Hooks
 order: 12
 title: ReactCurrentDispatcher
 ---

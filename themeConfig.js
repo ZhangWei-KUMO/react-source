@@ -10,11 +10,12 @@ const themeConfig = {
     简介: 1,
     React基础概念: 2,
     "React DOM": 3,
-    React更新: 8,
     "React Fiber": 4,
-    "React API": 5,
-    Fiber的工作循环机制: 7,
-    其他: 9
+    React更新: 5,
+    懒加载: 6,
+    Hooks: 7,
+    服务端渲染: 8,
+    其他: 10
   },
   typeOrder: {
     "react-source 必考点": 1,
