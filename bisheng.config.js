@@ -43,7 +43,8 @@ const babelConfig = {
 };
 
 module.exports = {
-  root: ENV === "production" ? "/react-source/" : "/",
+  // 在这里设置不同环境下的打包路径
+  root: ENV === "production" ? "/" : "/",
   devtool: ENV === "production" ? "cheap-module-source-map" : "cheap-module-eval-source-map",
   webpackConfig(config) {
     config.node = {
