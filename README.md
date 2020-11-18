@@ -1,6 +1,6 @@
 # React17源码分析
 
-对于最新的React17 源码进行分析的一个开源项目，线上网址：https://cloud-wave.cn/react-source/docs/introduction/getting_started
+对于最新的React17 源码进行分析的一个开源项目，线上网址：https://react.cloud-wave.cn
 
 
 ## 本地启动
@@ -16,3 +16,4 @@ yarn start
 3. 黄轶
 4. [司徒正美]
   
+## 当前版本关闭微信转发
